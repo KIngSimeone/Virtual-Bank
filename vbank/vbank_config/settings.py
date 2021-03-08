@@ -106,6 +106,19 @@ DATABASES = {
 }
 """
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_EXPOSE_HEADERS = [
+    'Access-Control-Allow-Methods',
+    'Access-Control-Allow-Origin',
+    'Access-Control-Allow-Headers',
+    'Access-Control-Max-Age'
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'Access-Token',
+    'Secret',
+]
 
 
 # Password validation
