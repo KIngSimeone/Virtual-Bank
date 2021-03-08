@@ -52,7 +52,6 @@ def successResponse(httpStatusCode=HTTPStatus.OK, message="", body={}, paginatio
         
     return response
 
-
 # helper functions
 
 def getUserIpAddress(request):

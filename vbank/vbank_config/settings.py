@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'swagger_render',
     'api_utils',
+    'data_transformer'
 ]
 
 MIDDLEWARE = [
