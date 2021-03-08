@@ -25,15 +25,24 @@ load_dotenv(ENV_PATH)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
+ROOT_SECRET = os.getenv('ROOT_SECRET')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+APPEND_SLASH = False
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
+# Add 'prefix' to all urlpatterns
+API_VERSION = os.getenv('API_VERSION')
+
+# reset token expiration time
+DURATION = os.getenv('DURATION')
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,19 +50,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'swagger_render',
+    'api_utils',
+    'data_transformer',
+    'errors',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'vbank.urls'
+ROOT_URLCONF = 'vbank_config.urls'
 
 TEMPLATES = [
     {
@@ -71,8 +86,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'vbank.wsgi.application'
-
+WSGI_APPLICATION = 'vbank_config.wsgi.application'
+ASGI_APPLICATION = 'vbank_config.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -83,6 +98,32 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+    }
+}
+"""
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_EXPOSE_HEADERS = [
+    'Access-Control-Allow-Methods',
+    'Access-Control-Allow-Origin',
+    'Access-Control-Allow-Headers',
+    'Access-Control-Max-Age'
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'Access-Token',
+    'Secret',
+]
 
 
 # Password validation
@@ -122,3 +163,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
+SWAGGER_YAML_FILENAME = '/docs/vbank-api-doc.yml'
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+]
+
+# s3 bucket configuration
+BUCKET_ACCESS_KEY_ID = os.getenv('BUCKET_ACCESS_KEY_ID')
+BUCKET_SECRET_KEY = os.getenv('BUCKET_SECRET_KEY')
+BUCKET_REGION_NAME = os.getenv('BUCKET_REGION_NAME')
+BUCKET_NAME = os.getenv('BUCKET_NAME')
+# BUCKET_ENDPOINT_URL = os.getenv('BUCKET_ENDPOINT_URL')
+
+PASSWORD_RESET_ENDPOINT = os.getenv('PASSWORD_RESET_ENDPOINT')
