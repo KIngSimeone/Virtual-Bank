@@ -63,7 +63,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'vbank.urls'
+ROOT_URLCONF = 'vbank_config.urls'
 
 TEMPLATES = [
     {
@@ -81,8 +81,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'vbank.wsgi.application'
-
+WSGI_APPLICATION = 'vbank_config.wsgi.application'
+ASGI_APPLICATION = 'vbank_config.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -93,6 +93,19 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+"""
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+    }
+}
+"""
+
 
 
 # Password validation
