@@ -165,3 +165,12 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     'django.contrib.auth.hashers.Argon2PasswordHasher',
 ]
+
+# s3 bucket configuration
+BUCKET_ACCESS_KEY_ID = os.getenv('BUCKET_ACCESS_KEY_ID')
+BUCKET_SECRET_KEY = os.getenv('BUCKET_SECRET_KEY')
+BUCKET_REGION_NAME = os.getenv('BUCKET_REGION_NAME')
+BUCKET_NAME = os.getenv('BUCKET_NAME')
+# BUCKET_ENDPOINT_URL = os.getenv('BUCKET_ENDPOINT_URL')
+
+PASSWORD_RESET_ENDPOINT = os.getenv('PASSWORD_RESET_ENDPOINT')
