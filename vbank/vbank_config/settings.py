@@ -159,7 +159,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
-SWAGGER_YAML_FILENAME = '/docs/dyneryte-api-doc.yml'
+SWAGGER_YAML_FILENAME = '/docs/vbank-api-doc.yml'
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
