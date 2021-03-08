@@ -1,3 +1,62 @@
-from django.shortcuts import render
+from enum import Enum, IntEnum
+from .models import Error
+from django.db import IntegrityError
 
-# Create your views here.
+
+class ErrorCodes(IntEnum):
+    GENERIC_ERROR = 0
+    UNAUTHENTICATED_REQUEST = 1
+    UNAUTHORIZED_REQUEST = 2
+    COULD_NOT_PROCESS_UPLOAD = 3
+    USER_CREATION_FAILED = 4
+    USER_UPDATE_FAILED = 5
+    USER_DELETION_FAILED = 6
+    USER_ALREADY_EXISTS = 7
+    USER_DOES_NOT_EXIST = 8
+    USER_WITH_PHONE_ALREADY_EXIST = 9
+    USER_WITH_EMAIL_ALREADY_EXIST = 10
+    USER_WITH_USERNAME_ALREADY_EXIST = 11
+    FILE_FORMAT_INVALID = 12
+    FILE_UPLOAD_FAILED = 13
+    PASSWORD_MISMATCH = 14
+    RESTAURANT_CREATION_FAILED = 15
+    RESTAURANT_ALREADY_EXISTS = 16
+    RESTAURANT_UPDATE_FAILED = 17
+    RESTAURANT_NOT_FOUND = 18
+    MISSING_FIELDS = 19
+    PASSWORD_RESET_FAILED = 20
+    PASSWORD_CHANGE_FAILED = 21
+    INVALID_CREDENTIALS = 22
+    CATEGORY_NOT_FOUND = 24
+    MENU_ITEM_CREATION_FAILED = 25
+    MENU_CATEGORY_CREATION_FAILED = 26
+    MENU_CATEGORY_UPDATE_FAILED = 27
+    MENU_CATEGORY_DELETE_FAILED = 28
+    MENU_ITEM_NOT_FOUND = 29
+    MENU_ITEM_UPDATE_FAILED = 30
+    MENU_ITEM_DELETE_FAILED = 31
+    CREATE_RESTAURANT_MENU_FAILED = 32
+    RESTAURANT_MENU_NOT_FOUND = 33
+    RESTAURANT_MENU_UPDATE_FAILED = 34
+    RESTAURNT_MENU_DELETE_FAILED = 35
+    STAFF_ROLE_CREATION_FAILED = 36
+    STAFF_ROLE_NOT_FOUND = 37
+    STAFF_ROLE_UPDATE_FAILED = 38
+    STAFF_ROLE_DELETE_FAILED = 39
+    RESTAURANT_DELETE_FAILED = 40
+
+
+
+
+
+# base error
+def getError(code, defaultMessage):
+    try:
+        _, _ = Error.objects.get_or_create(
+            code=code, description=defaultMessage)
+
+        return {'errorCode': code, 'message': defaultMessage}
+
+    except IntegrityError:
+        return {'errorCode': code, 'message': defaultMessage}
+
