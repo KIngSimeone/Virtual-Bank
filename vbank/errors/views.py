@@ -20,9 +20,6 @@ class ErrorCodes(IntEnum):
     FILE_UPLOAD_FAILED = 13
 
 
-
-
-
 # base error
 def getError(code, defaultMessage):
     try:
